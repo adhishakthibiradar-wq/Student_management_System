@@ -1,4 +1,5 @@
 import sqlite3
+import csv
 def get_connection():
     return sqlite3.connect("students.db")
 
@@ -170,7 +171,7 @@ def update_student():
 
     connection.close()
 
-def delete_student():
+def delete_students():
     connection = get_connection()
     cursor = connection.cursor()
 
@@ -194,3 +195,135 @@ def delete_student():
         print("Student not found.")
 
     connection.close()
+
+def count_students():
+    connection = get_connection()
+    cursor = connection.cursor()
+
+    cursor.execute("SELECT COUNT(*) FROM students")
+
+    total = cursor.fetchone()[0]
+
+    print(f"\nTotal Students: {total}")
+
+    connection.close()
+
+def show_topper():
+    connection = get_connection()
+    cursor = connection.cursor()
+
+    cursor.execute("""
+        SELECT * FROM students
+        ORDER BY marks DESC
+        LIMIT 1
+    """)
+
+    student = cursor.fetchone()
+
+    if student:
+        print("\n===== TOPPER =====")
+        print(f"Student ID : {student[0]}")
+        print(f"Name       : {student[1]}")
+        print(f"Age        : {student[2]}")
+        print(f"Course     : {student[3]}")
+        print(f"Marks      : {student[4]}")
+    else:
+        print("No students found.")
+
+    connection.close()
+
+def average_marks():
+    connection = get_connection()
+    cursor = connection.cursor()
+
+    cursor.execute("SELECT AVG(marks) FROM students")
+
+    average = cursor.fetchone()[0]
+
+    if average is None:
+        print("\nNo students found.")
+    else:
+        print(f"\nAverage Marks: {average:.2f}")
+
+    connection.close()
+
+def sort_students_by_marks():
+    connection = get_connection()
+    cursor = connection.cursor()
+
+    cursor.execute("""
+        SELECT * FROM students
+        ORDER BY marks DESC
+    """)
+
+    students = cursor.fetchall()
+
+    if not students:
+        print("\nNo students found.")
+    else:
+        print("\n===== STUDENTS SORTED BY MARKS =====")
+
+        for student in students:
+            print("--------------------------------")
+            print(f"Student ID : {student[0]}")
+            print(f"Name       : {student[1]}")
+            print(f"Age        : {student[2]}")
+            print(f"Course     : {student[3]}")
+            print(f"Marks      : {student[4]}")
+
+    connection.close()
+
+def search_student_by_name():
+    connection = get_connection()
+    cursor = connection.cursor()
+
+    name = input("Enter Student Name: ")
+
+    cursor.execute(
+        "SELECT * FROM students WHERE name LIKE ?",
+        ('%' + name + '%',)
+    )
+
+    students = cursor.fetchall()
+
+    if students:
+
+        print("\n===== SEARCH RESULTS =====")
+
+        for student in students:
+            print("----------------------------")
+            print(f"Student ID : {student[0]}")
+            print(f"Name       : {student[1]}")
+            print(f"Age        : {student[2]}")
+            print(f"Course     : {student[3]}")
+            print(f"Marks      : {student[4]}")
+
+    else:
+        print("No student found.")
+
+    connection.close()
+
+def export_to_csv():
+    connection = get_connection()
+    cursor = connection.cursor()
+
+    cursor.execute("SELECT * FROM students")
+
+    students = cursor.fetchall()
+
+    if not students:
+        print("\nNo students found.")
+        connection.close()
+        return
+
+    with open("students_report.csv", "w", newline="") as file:
+
+        writer = csv.writer(file)
+
+        writer.writerow(["Student ID", "Name", "Age", "Course", "Marks"])
+
+        writer.writerows(students)
+
+    connection.close()
+
+    print("\nStudents exported successfully!")    

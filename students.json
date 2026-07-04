@@ -1,0 +1,30 @@
+[
+    {
+        "id": "1",
+        "name": "adishakti",
+        "age": "22",
+        "course": "python",
+        "marks": "20"
+    },
+    {
+        "id": "2",
+        "name": "maya",
+        "age": "23",
+        "course": "java",
+        "marks": "30"
+    },
+    {
+        "id": "3",
+        "name": "mahi",
+        "age": "34",
+        "course": "CSS",
+        "marks": 54
+    },
+    {
+        "id": "4",
+        "name": "abhay",
+        "age": "20",
+        "course": "Javascript",
+        "marks": 84
+    }
+]
