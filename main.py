@@ -25,10 +25,42 @@ while True:
         print("\n------ Add Student ------")
 
         student_id = input("Enter Student ID: ")
-        name = input("Enter Student Name: ")
-        age = input("Enter Age: ")
+
+        duplicate = False
+
+        for student in students:
+            if student["id"] == student_id:
+                duplicate = True
+                break
+
+        if duplicate:
+            print("Student ID already exists!")
+            continue
+        while True:
+            name = input("Enter Student Name: ").strip()
+
+            if name != "":
+                break
+
+            print("Name cannot be empty.")
+        while True:
+            age = input("Enter Age: ")
+
+            if age.isdigit():
+                break
+
+            print("Please enter a valid age.")
         course = input("Enter Course: ")
-        marks = input("Enter Marks: ")
+        while True:
+            marks = input("Enter Marks: ")
+
+            if marks.isdigit():
+                marks = int(marks)
+
+                if 0 <= marks <= 100:
+                    break
+
+            print("Marks must be between 0 and 100.")
 
         student = {
             "id": student_id,

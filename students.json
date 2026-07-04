@@ -12,5 +12,12 @@
         "age": "23",
         "course": "java",
         "marks": "30"
+    },
+    {
+        "id": "3",
+        "name": "mahi",
+        "age": "42",
+        "course": "HTML",
+        "marks": 38
     }
 ]
