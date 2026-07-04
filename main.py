@@ -1,13 +1,4 @@
-import json
-try:
-    with open("students.json", "r") as file:
-        students = json.load(file)
-except:
-    students = []
-
-def save_data():
-    with open("students.json", "w") as file:
-        json.dump(students, file, indent=4)
+from student import *
 
 while True:
     print("\n========== STUDENT MANAGEMENT SYSTEM ==========")
@@ -22,139 +13,23 @@ while True:
 
     # Add Student
     if choice == "1":
-        print("\n------ Add Student ------")
-
-        student_id = input("Enter Student ID: ")
-
-        duplicate = False
-
-        for student in students:
-            if student["id"] == student_id:
-                duplicate = True
-                break
-
-        if duplicate:
-            print("Student ID already exists!")
-            continue
-        while True:
-            name = input("Enter Student Name: ").strip()
-
-            if name != "":
-                break
-
-            print("Name cannot be empty.")
-        while True:
-            age = input("Enter Age: ")
-
-            if age.isdigit():
-                break
-
-            print("Please enter a valid age.")
-        course = input("Enter Course: ")
-        while True:
-            marks = input("Enter Marks: ")
-
-            if marks.isdigit():
-                marks = int(marks)
-
-                if 0 <= marks <= 100:
-                    break
-
-            print("Marks must be between 0 and 100.")
-
-        student = {
-            "id": student_id,
-            "name": name,
-            "age": age,
-            "course": course,
-            "marks": marks
-        }
-
-        students.append(student)
-        save_data()
-        print("\nStudent Added Successfully!")
-
+        add_student()
+        
     # View Students
     elif choice == "2":
-        print("\n------ Student List ------")
-
-        if len(students) == 0:
-            print("No students found.")
-        else:
-            for student in students:
-                print("----------------------------")
-                print(f"Student ID : {student['id']}")
-                print(f"Name       : {student['name']}")
-                print(f"Age        : {student['age']}")
-                print(f"Course     : {student['course']}")
-                print(f"Marks      : {student['marks']}")
-            print("----------------------------")
+        view_students()
 
     # Search Student
     elif choice == "3":
-        print("\n------ Search Student ------")
-
-        search_id = input("Enter Student ID to search: ")
-
-        found = False
-
-        for student in students:
-            if student["id"] == search_id:
-                print("\nStudent Found!")
-                print(f"Student ID : {student['id']}")
-                print(f"Name       : {student['name']}")
-                print(f"Age        : {student['age']}")
-                print(f"Course     : {student['course']}")
-                print(f"Marks      : {student['marks']}")
-                found = True
-                break
-
-        if not found:
-            print("Student not found.")
+        search_student()
 
     # Update Student
     elif choice == "4":
-        print("\n------ Update Student ------")
-
-        update_id = input("Enter Student ID to update: ")
-
-        found = False
-
-        for student in students:
-            if student["id"] == update_id:
-                print("\nStudent Found!")
-
-                student["name"] = input("Enter New Name: ")
-                student["age"] = input("Enter New Age: ")
-                student["course"] = input("Enter New Course: ")
-                student["marks"] = input("Enter New Marks: ")
-
-                save_data()
-                print("\nStudent Updated Successfully!")
-                found = True
-                break
-
-        if not found:
-            print("Student not found.")
+        update_student()
 
     # Delete Student
     elif choice == "5":
-        print("\n------ Delete Student ------")
-
-        delete_id = input("Enter Student ID to delete: ")
-
-        found = False
-
-        for student in students:
-            if student["id"] == delete_id:
-                students.remove(student)
-                save_data()
-                print("\nStudent Deleted Successfully!")
-                found = True
-                break
-
-        if not found:
-            print("Student not found.")
+        delete_student()
 
     # Exit
     elif choice == "6":
