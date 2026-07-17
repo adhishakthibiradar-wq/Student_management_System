@@ -24,6 +24,7 @@ A console-based Student Management System developed using **Python** and **SQLit
 python database.py
 python main.py
 ```
+link : https://ai-student-performance-predictor-sigma.vercel.app/
 
 ## 📌 Author
 **Adishakti Biradar**
